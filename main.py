@@ -59,16 +59,12 @@ def predict(data: SensorData):
         ]])
         cat_input = np.array([[data.tempMode]])
 
-        # Step 2: Scale numerical features
         num_scaled = scaler.transform(num_input)
 
-        # Step 3: Concatenate scaled numerical + categorical
         full_input = np.concatenate([num_scaled, cat_input], axis=1)
 
-        # Step 4: Convert to tensor
         input_tensor = torch.tensor(full_input, dtype=torch.float32)
 
-        # Step 5: Inference
         with torch.no_grad():
             prob = model(input_tensor)
             pred = int((prob > 0.5).item())
